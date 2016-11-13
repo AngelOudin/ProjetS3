@@ -1,14 +1,15 @@
-var control,camera,scene,renderer,width,height,cubedae,degree;
+var control,camera,scene,renderer,width,height,dae,degree;
 	width=window.innerWidth;
 	height=window.innerHeight;
 	degree=Math.PI/180;
 
+	//chargement de la maison
 	var collada=new THREE.ColladaLoader();
 	collada.options.convertUpAxis=true;
 	collada.load("assets/ptitemaison.dae",function(object){
-		cubedae=object.scene;
-		cubedae.scale.set(30,30,30);
-		cubedae.position.set(0,80,-56);
+		dae=object.scene;
+		dae.scale.set(30,30,30);
+		dae.position.set(0,80,-56);
 		//cubedae.rotation.set(0,180 * degree,0);
 
 	init();
@@ -31,8 +32,8 @@ var control,camera,scene,renderer,width,height,cubedae,degree;
 
 		scene.add(light);
 		scene.add(light2);
-		scene.add(cubedae);
-		cubedae.position.set(25,56,-56);
+		scene.add(dae);
+		dae.position.set(25,56,-56);
 
 		renderer=new THREE.WebGLRenderer();
 		renderer.setClearColor(0xffffff);
@@ -41,6 +42,9 @@ var control,camera,scene,renderer,width,height,cubedae,degree;
 		renderer.render(scene,camera);
 
 		control = new THREE.OrbitControls(camera, renderer.domElement);
+
+		//tentative de récupérer un élément par son id et de le manipuler mais sans succès
+		//dae.GetElementById('representation-2888-positions-array').position.set(50,50,50);
 	}
 
 	function animate(){
