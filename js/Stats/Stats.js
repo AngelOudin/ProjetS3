@@ -168,4 +168,10 @@ THREE.KeyFrameAnimation.prototype = {
 
                         prevKey = nextKey;
                         nextKey = keys[prevKey.index + 1];
+                    }
+                }
+            }
+        }
+    }
+}
                         
