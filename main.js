@@ -1,20 +1,21 @@
-var control,camera,scene,renderer,width,height,dae,degree;
-	width=window.innerWidth;
-	height=window.innerHeight;
-	degree=Math.PI/180;
+//window.onload = function(){
+var container = document.getElementById('container'),control,camera,scene,renderer,width,height,dae,degree;
+width=container.clientWidth;
+height=container.clientHeight;
+//degree=Math.PI/180;
 
-	//chargement de la maison
-	var collada=new THREE.ColladaLoader();
-	collada.options.convertUpAxis=true;
-	collada.load("assets/ptitemaison.dae",function(object){
-		dae=object.scene;
-		dae.scale.set(30,30,30);
-		dae.position.set(0,80,-56);
-		//cubedae.rotation.set(0,180 * degree,0);
+//chargement de la maison
+var collada=new THREE.ColladaLoader();
+collada.options.convertUpAxis=true;
+collada.load("assets/ptitemaison.dae",function(object){
+	dae=object.scene;
+	dae.scale.set(30,30,30);
+	dae.position.set(0,80,-56);
 
-	init();
-	animate();
-	});
+init();
+animate();
+});
+//	}
 
 	function init(){
 		camera=new THREE.PerspectiveCamera(45,width/height,1,10000);
@@ -43,13 +44,41 @@ var control,camera,scene,renderer,width,height,dae,degree;
 
 		control = new THREE.OrbitControls(camera, renderer.domElement);
 
-		//tentative de récupérer un élément par son id et de le manipuler mais sans succès
-		//dae.GetElementById('representation-2888-positions-array').position.set(50,50,50);
+		projector = new THREE.Projector();
+		mouseVector = new THREE.Vector3();
+
+		window.addEventListener('click', onMouseClick, false);
+
+		window.addEventListener('resize', onWindowResize, false);
+	}
+
+	function onMouseClick(e){
+		mouseVector.x = 2 * (e.clientX / width) - 1;
+		mouseVector.y = 1 - 2 * (e.clientY / height);
+
+		var raycaster = projector.pickingRay(mouseVector.clone(), camera);
+
+		var intersects = raycaster.intersectObjects(dae.children);
+
+		for(var i = 0; i< intersects.length; i++){
+			var intersection = intersects[i],
+				obj = intersection.object;
+
+			obj.material.color.setRGB(1.0 - i/ intersects.length, 0,0);
+		}
+	}
+
+	function onWindowResize( e ) {
+        width = container.clientWidth;
+        height = container.clientHeight;
+        renderer.setSize( width, height );
+        camera.aspect = containerWidth / containerHeight;
+        camera.updateProjectionMatrix();
 	}
 
 	function animate(){
 		requestAnimationFrame(animate);
-		render();
+		renderer.render(scene,camera);
 		control.update();
 	}
 
