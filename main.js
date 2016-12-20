@@ -5,7 +5,7 @@ var control,camera,scene,renderer,width,height,cubedae,degree;
 
 	var collada=new THREE.ColladaLoader();
 	collada.options.convertUpAxis=true;
-	collada.load("assets/cubedae.dae",function(object){
+	collada.load("assets/ptitemaison.dae",function(object){
 		cubedae=object.scene;
 		cubedae.scale.set(30,30,30);
 		cubedae.position.set(0,80,-56);
@@ -26,7 +26,11 @@ var control,camera,scene,renderer,width,height,cubedae,degree;
 		var light=new THREE.PointLight(0xffffff,1,2000);
 		light.position.set(500,500,500);
 
+		var ligt2 = new THREE.PointLight(0xffffff,1,2000);
+		ligt2.position.set(-500,-500,-500);
+
 		scene.add(light);
+		scene.add(ligt2);
 		scene.add(cubedae);
 
 		renderer=new THREE.WebGLRenderer();
