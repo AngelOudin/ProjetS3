@@ -7,7 +7,10 @@ var control,
 	dae,
 	degree,
 	projector,
-	mouseVector;
+	mouseVector,
+	raycaster = new THREE.Raycaster(),
+	direction = new THREE.Vector3(),
+	intersects;
 
 	width=window.innerWidth;
 	height=window.innerHeight;
@@ -60,15 +63,31 @@ var control,
 
 	function onMouseClick(e){
 		//alert('coucou');
-		mouseVector.x = 2 *(e.clientX/width) -1;
-		mouseVector.y = 1 - 2 * (e.clientY / height);
+		intersects = null;
+		//ancienne façon de faire
+		/*mouseVector.x = 2 *(e.clientX/width) -1;
+		mouseVector.y = 1 - 2 * (e.clientY / height);*/
+		//mouseVector = point.clone().unproject(camera);
 
-		var raycaster = projector.pickingRay(mouseVector.clone(), camera);
-		var	intersects = raycaster.intersectObjects(dae.children);
+		mouseVector.unproject(camera);
+		//ENORME MANQUE de précision sur le rayon projeté
+		raycaster.set(camera.position,mouseVector.sub(camera.position).normalize());
+
+		intersects = raycaster.intersectObjects(dae.children);
+		//alert('lol');
+		var intersection = intersects[0];
+		var obj = intersection.object;
+		//opérations
+		//changement de couleur
+		obj.material.color.setRGB(0xff0000);
 	}
 
 	function onWindowResize(e){
-
+		width=window.innerWidth;
+		height=window.innerHeight;
+		renderer.setSize(width,height);
+		camera.aspect = width/height;
+		camera.updateProjectionMatrix();
 	}
 
 	function animate(){
