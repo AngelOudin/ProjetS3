@@ -65,8 +65,8 @@ var control,
 		//alert('coucou');
 		intersects = null;
 		//ancienne façon de faire
-		/*mouseVector.x = 2 *(e.clientX/width) -1;
-		mouseVector.y = 1 - 2 * (e.clientY / height);*/
+		mouseVector.x = 2 *(e.clientX/width) -1;
+		mouseVector.y = 1 - 2 * (e.clientY / height);
 		//mouseVector = point.clone().unproject(camera);
 
 		mouseVector.unproject(camera);
