@@ -62,19 +62,15 @@ var control,
 	}
 
 	function onMouseClick(e){
-		//alert('coucou');
-		intersects = null;
-		//ancienne façon de faire
+		//intersects = null;
 		mouseVector.x = 2 *(e.clientX/width) -1;
 		mouseVector.y = 1 - 2 * (e.clientY / height);
-		//mouseVector = point.clone().unproject(camera);
 
 		mouseVector.unproject(camera);
-		//ENORME MANQUE de précision sur le rayon projeté
+
 		raycaster.set(camera.position,mouseVector.sub(camera.position).normalize());
 
 		intersects = raycaster.intersectObjects(dae.children);
-		//alert('lol');
 		var intersection = intersects[0];
 		var obj = intersection.object;
 		//opérations
