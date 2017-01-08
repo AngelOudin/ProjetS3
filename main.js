@@ -1,15 +1,26 @@
-var control,camera,scene,renderer,width,height,cubedae,degree;
+var control,
+	camera,
+	scene,
+	renderer,
+	width,
+	height,
+	dae,
+	degree,
+	mouseVector,
+	raycaster = new THREE.Raycaster(),
+	intersects;
+
 	width=window.innerWidth;
 	height=window.innerHeight;
 	degree=Math.PI/180;
 
 	var collada=new THREE.ColladaLoader();
 	collada.options.convertUpAxis=true;
-	collada.load("assets/ptitemaison.dae",function(object){
-		cubedae=object.scene;
-		cubedae.scale.set(30,30,30);
-		cubedae.position.set(0,80,-56);
-		cubedae.rotation.set(0,180 * degree,0);
+	collada.load("assets/"+getCookie('nomFichier'),function(object){
+		dae=object.scene;
+		dae.scale.set(30,30,30);
+		dae.position.set(0,80,-56);
+		dae.rotation.set(0,180 * degree,0);
 
 	init();
 	animate();
@@ -31,7 +42,7 @@ var control,camera,scene,renderer,width,height,cubedae,degree;
 
 		scene.add(light);
 		scene.add(ligt2);
-		scene.add(cubedae);
+		scene.add(dae);
 
 		renderer=new THREE.WebGLRenderer();
 		renderer.setClearColor(0xffffff);
@@ -39,7 +50,37 @@ var control,camera,scene,renderer,width,height,cubedae,degree;
 		document.body.appendChild(renderer.domElement);
 		renderer.render(scene,camera);
 
+		mouseVector = new THREE.Vector3();
+
+		window.addEventListener('click', onMouseClick, false);
+		window.addEventListener('resize',onWindowResize,false);
+
 		control = new THREE.OrbitControls(camera, renderer.domElement);
+	}
+
+	function onMouseClick(e){
+		//intersects = null;
+		mouseVector.x = 2 *(e.clientX/width) -1;
+		mouseVector.y = 1 - 2 * (e.clientY / height);
+
+		mouseVector.unproject(camera);
+
+		raycaster.set(camera.position,mouseVector.sub(camera.position).normalize());
+
+		intersects = raycaster.intersectObjects(dae.children);
+		var intersection = intersects[0];
+		var obj = intersection.object;
+		//opérations
+		//changement de couleur
+		obj.material.color.setRGB(0xff0000);
+	}
+
+	function onWindowResize(e){
+		width=window.innerWidth;
+		height=window.innerHeight;
+		renderer.setSize(width,height);
+		camera.aspect = width/height;
+		camera.updateProjectionMatrix();
 	}
 
 	function animate(){
