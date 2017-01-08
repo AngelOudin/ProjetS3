@@ -1,14 +1,23 @@
-﻿<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title>3D - CUD 1.0.0</title>
-	</head>
-	<body>
-		<script src="js/three.js"></script>
-		<script src="js/Controls/OrbitControls.js"></script>
-		<script src="js/loader/ColladaLoader.js"></script>
-		<script src="js/Stats/Stats.js"></script>
-		<script type="text/javascript" src="main.js"></script>
-	</body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>3D CUD</title>
+</head>
+<body>
+	<label>Selectionne un objet 3D à afficher:</label>
+	<br/>
+	<input type="file" name"fichier" id="1"/>
+	<br/>
+	<button onclick="myFunction()">Valider</button>
+	<br/>
+	<script>
+	var nomFichier;
+	function myFunction() {
+  	  nomFichier=document.getElementById("1").value;
+  	  document.cookie="nomFichier="+nomFichier;
+	}
+	</script>
+	<a href="3DCUD.html">Affichage</a>
+</body>
 </html>

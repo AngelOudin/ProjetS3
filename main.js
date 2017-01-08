@@ -6,10 +6,8 @@ var control,
 	height,
 	dae,
 	degree,
-	projector,
 	mouseVector,
 	raycaster = new THREE.Raycaster(),
-	direction = new THREE.Vector3(),
 	intersects;
 
 	width=window.innerWidth;
@@ -18,7 +16,7 @@ var control,
 
 	var collada=new THREE.ColladaLoader();
 	collada.options.convertUpAxis=true;
-	collada.load("assets/ptitemaison.dae",function(object){
+	collada.load("assets/"+getCookie('nomFichier'),function(object){
 		dae=object.scene;
 		dae.scale.set(30,30,30);
 		dae.position.set(0,80,-56);
@@ -52,7 +50,6 @@ var control,
 		document.body.appendChild(renderer.domElement);
 		renderer.render(scene,camera);
 
-		projector = new THREE.Projector();
 		mouseVector = new THREE.Vector3();
 
 		window.addEventListener('click', onMouseClick, false);

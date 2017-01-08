@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>3D - CUD 1.0.0</title>
+		<link rel="stylesheet" href="CSS/css.css" />
+	</head>
+	<body>
+		<script src="js/three.js"></script>
+		<script src="js/Controls/OrbitControls.js"></script>
+		<script src="js/loader/ColladaLoader.js"></script>
+		<script src="js/Stats/Stats.js"></script>
+		<script src="fonctions.js"></script>
+		<script src="XMLDisplay.js"></script>
+		<script type="text/javascript" src="main.js"></script>
+		<div id="mySidenav" class="sidenav">
+	  		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+	  		<div id="XMLHolder"></div>
+			<script>LoadXML('XMLHolder','assets/'+getCookie('nomFichier'));</script>
+		</div>
+		<div id="main">
+			<a href="home.html">change d'objet</a><br/>
+			<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; arborescence</span>
+		</div>
+	</body>
+</html>
